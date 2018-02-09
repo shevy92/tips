@@ -7,6 +7,11 @@
 
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,600,800" rel="stylesheet">
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+   
     
     <script src="js/scripts.js"></script>
     
@@ -28,26 +33,31 @@
 <body>
     <img id="headImage" alt="header" src="images/header.png"/>
     
-    <form>
-        <input type="number" name="bill" min="1" step="0.01" placeholder="Bill Amount">
+    <div id="billInfo">
+        <input id="billamount" type="number" name="bill" min="1" step="0.01" placeholder="Bill Amount">
         <br><br>
         
-        <div class="btn-group">
-          <button>15%</button>
-          <button>18%</button>
-          <button>20%</button>
-          <button>25%</button>
-          &nbsp; Or  &nbsp;<input type="number" name="tip" min="1" step="0.01" placeholder="Custom Tip">
+        <div id="tipamount" class="btn-group">
+          <button id="0.15" class="btn btn-default">15%</button>
+          <button id="0.18" class="active btn btn-default">18%</button>
+          <button id="0.20" class="btn btn-default">20%</button>
+          <button id="0.25" class="btn btn-default">25%</button>
         </div>
         
+        <br>
+        &nbsp; Or  &nbsp;
+        <input id="customTip" type="number" name="tip" min="1" step="0.01" placeholder="Custom Tip">
+        <br><br>
         
-    </form>
-    
-    
-    
-    
-    
-    
+        <div class="slidecontainer">
+          <p style="text-align: center;">Number of guests: <span style="font-size: 1.5em; font-weight: bold; color: white;" id="demo"></span></p>
+          <input type="range" min="1" max="20" value="2" class="slider" id="myRange">
+        </div>
+        
+    </div>
+    <br>
+    <button id="calculate" type="button" onclick="calculateTip()">Calculate</button>
+ 
     
     <script>
         var slider = document.getElementById("myRange");
@@ -56,6 +66,35 @@
 
         slider.oninput = function() {
           output.innerHTML = this.value;
+        }
+        
+        $(".btn-group > .btn").click(function(){
+            $(".btn-group > .btn").removeClass("active");
+            $(this).addClass("active");
+        });
+        
+        function calculateTip() {
+            var billAmt = document.getElementById("billamount").value;
+            
+            var buttonChoice = document.getElementById("tipamount");
+            
+            var tipAmt = '';
+            var presetTip = '';
+            var customTip = document.getElementById("customTip").value;
+            
+            $('#tipamount .active').each(function(){
+                presetTip = $(this).attr('id'); 
+                
+            }); 
+            
+            if (!customTip) {
+                tipAmt = presetTip;
+            } else {
+                tipAmt = customTip;
+            }
+            
+            console.log(tipAmt);
+            
         }
     </script>
 </body>
